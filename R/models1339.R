@@ -66,6 +66,6 @@ ggplot(
     ncol = 2,
     nrow = 2,
     data = subset(mod, model = "1339_000"),
-    path = "models1339") +
+    path = "docs/models1339") +
   theme(legend.position = "none")
 
