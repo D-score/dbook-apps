@@ -1,3 +1,5 @@
+if (packageVersion("dmetric") < "0.51.3") stop("Update dmetric")
+
 library("dmetric")
 library("trelliscopejs")
 library("ggplot2")
@@ -16,9 +18,7 @@ m_184 <- load_model("1339_184", model_dir = "models_2020", project = "Jamaica")
 d_184 <- load_data ("1339_184", model_dir = "models_2020", project = "Jamaica")
 
 # extact and sort equates nicely
-# unfortunately, trelliscope resorts
-# equatenames <- gtools::mixedsort(names(m_184$fit$equate))
-equatenames <- names(m_184$fit$equate)
+equatenames <- gtools::mixedsort(names(m_184$fit$equate))
 equatelist <- m_184$fit$equate[equatenames]
 
 equate_000 <- data.frame(
@@ -76,6 +76,7 @@ by_equate_184 <- by_equate_184 %>%
                                        model = m_184,
                                        equates = .data$equate,
                                        show_rug = FALSE)))
+
 by_equate <- bind_rows(by_equate_000,
                        by_equate_011,
                        by_equate_033,
