@@ -33,9 +33,10 @@ by_equate <- by_equate %>%
     panel = map_plot(data,
                      ~ plot_p_a_equate(data = d_184,
                                        model = m_184,
-                                       equates = .data$equate)))
+                                       equates = .data$equate,
+                                       show_fit = FALSE)))
 
-# remove two problem equates that have no plots
+# remove one group (EXP6) with no plot
 by_equate <- by_equate[sapply(by_equate$panel, is.list), ]
 
 # create the app
@@ -45,7 +46,8 @@ by_equate %>%
               width = 1000,
               nrow = 1,
               ncol = 1,
+              state = list(pg = 62),
               path = "docs/p-a-equate-1339")
 
 # FIXME: internal sorting by trelliscope gobbles up the mixedsort()
-# FIXME: two groups (EXP5, EXP6) are lost (single items)
+# FIXME: start at page for EXP26
