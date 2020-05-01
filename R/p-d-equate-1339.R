@@ -16,12 +16,14 @@ m_184 <- load_model("1339_184", model_dir = "models_2020", project = "Jamaica")
 d_184 <- load_data ("1339_184", model_dir = "models_2020", project = "Jamaica")
 
 # extact and sort equates nicely
-equates <- m_184$fit$equate
-ms <- mixedsort(names(equates))
-equates <- equates[ms]
+# unfortunately, trelliscope resorts
+# equatenames <- gtools::mixedsort(names(m_184$fit$equate))
+equatenames <- names(m_184$fit$equate)
+equatelist <- m_184$fit$equate[equatenames]
+
 equate_000 <- data.frame(
-  equate = rep(names(equates), sapply(equates, length)),
-  item = unlist(equates),
+  equate = rep(names(equatelist), sapply(equatelist, length)),
+  item = unlist(equatelist),
   model = "1339_000",
   row.names = NULL,
   stringsAsFactors = FALSE
@@ -44,12 +46,6 @@ by_equate_033 <- equate_033 %>%
 by_equate_184 <- equate_184 %>%
   group_by(model, equate) %>%
   nest()
-
-# hack to convince plot_p_d_equate() to plot inactive equates
-m_000$fit$equate <- equates
-m_011$fit$equate <- equates
-m_033$fit$equate <- equates
-m_184$fit$equate <- equates
 
 # add in a plot column with map_plot
 by_equate_000 <- by_equate_000 %>%
@@ -102,4 +98,3 @@ by_equate %>%
               path = "docs/p-d-equate-1339")
 
 # FIXME: internal sorting by trelliscope gobbles up the mixedsort()
-# FIXME: curves are lost for many equates. Need to check.
