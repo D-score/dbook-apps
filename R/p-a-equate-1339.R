@@ -50,5 +50,3 @@ by_equate %>%
               ncol = 1,
               state = list(sort = list(sort_spec("equate_index"))),
               path = "docs/p-a-equate-1339")
-
-# FIXME: start at page for EXP26
