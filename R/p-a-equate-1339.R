@@ -23,7 +23,9 @@ equatedf <- data.frame(
 
 # nest equate data frame by equate
 by_equate <- equatedf %>%
-  group_by(equate) %>%
+  mutate(equate = factor(equate, levels = unique(equate)),
+         equate_index = as.integer(equate)) %>%
+  group_by(equate, equate_index) %>%
   nest()
 
 # add in a plot column with map_plot
@@ -33,7 +35,7 @@ by_equate <- by_equate %>%
     panel = map_plot(data,
                      ~ plot_p_a_equate(data = d_184,
                                        model = m_184,
-                                       equates = .data$equate,
+                                       equates = as.character(.data$equate),
                                        show_fit = FALSE)))
 
 # remove one group (EXP6) with no plot
@@ -46,8 +48,7 @@ by_equate %>%
               width = 1000,
               nrow = 1,
               ncol = 1,
-              state = list(pg = 62),
+              state = list(sort = list(sort_spec("equate_index"))),
               path = "docs/p-a-equate-1339")
 
-# FIXME: internal sorting by trelliscope gobbles up the mixedsort()
 # FIXME: start at page for EXP26
