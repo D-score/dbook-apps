@@ -35,16 +35,24 @@ equate_184 <- mutate(equate_000, model = "1339_184")
 
 # nest equate data frame by equate
 by_equate_000 <- equate_000 %>%
-  group_by(model, equate) %>%
+  mutate(equate = factor(equate, levels = unique(equate)),
+         equate_index = as.integer(equate)) %>%
+  group_by(equate, equate_index, model) %>%
   nest()
 by_equate_011 <- equate_011 %>%
-  group_by(model, equate) %>%
+  mutate(equate = factor(equate, levels = unique(equate)),
+         equate_index = as.integer(equate)) %>%
+  group_by(equate, equate_index, model) %>%
   nest()
 by_equate_033 <- equate_033 %>%
-  group_by(model, equate) %>%
+  mutate(equate = factor(equate, levels = unique(equate)),
+         equate_index = as.integer(equate)) %>%
+  group_by(equate, equate_index, model) %>%
   nest()
 by_equate_184 <- equate_184 %>%
-  group_by(model, equate) %>%
+  mutate(equate = factor(equate, levels = unique(equate)),
+         equate_index = as.integer(equate)) %>%
+  group_by(equate, equate_index, model) %>%
   nest()
 
 # add in a plot column with map_plot
@@ -53,28 +61,28 @@ by_equate_000 <- by_equate_000 %>%
     panel = map_plot(data,
                      ~ plot_p_d_equate(data = d_184,
                                        model = m_000,
-                                       equates = .data$equate,
+                                       equates = as.character(.data$equate),
                                        show_rug = FALSE)))
 by_equate_011 <- by_equate_011 %>%
   mutate(
     panel = map_plot(data,
                      ~ plot_p_d_equate(data = d_184,
                                        model = m_011,
-                                       equates = .data$equate,
+                                       equates = as.character(.data$equate),
                                        show_rug = FALSE)))
 by_equate_033 <- by_equate_033 %>%
   mutate(
     panel = map_plot(data,
                      ~ plot_p_d_equate(data = d_184,
                                        model = m_033,
-                                       equates = .data$equate,
+                                       equates = as.character(.data$equate),
                                        show_rug = FALSE)))
 by_equate_184 <- by_equate_184 %>%
   mutate(
     panel = map_plot(data,
                      ~ plot_p_d_equate(data = d_184,
                                        model = m_184,
-                                       equates = .data$equate,
+                                       equates = as.character(.data$equate),
                                        show_rug = FALSE)))
 
 by_equate <- bind_rows(by_equate_000,
@@ -82,7 +90,7 @@ by_equate <- bind_rows(by_equate_000,
                        by_equate_033,
                        by_equate_184)
 
-# remove seven problem equates that have missing plots
+# remove problem equates that have missing plots
 keep <- sapply(by_equate$panel, length) > 0
 keep2 <- matrix(keep, ncol = 4)
 keep <- rep(apply(keep2, 1, all), 4)
@@ -96,6 +104,6 @@ by_equate %>%
               nrow = 2,
               ncol = 2,
               panel_col = "panel",
+              state = list(sort = list(sort_spec("equate_index"),
+                                       sort_spec("model"))),
               path = "docs/p-d-equate-1339")
-
-# FIXME: internal sorting by trelliscope gobbles up the mixedsort()
