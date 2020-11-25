@@ -31,6 +31,11 @@ mod <- bind_rows(
 library(trelliscopejs)
 library(ggplot2)
 theme_set(theme_light())
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA),
+             legend.key = element_blank(),
+             rect = element_rect(fill = "transparent") # all rectangles
+)
 
 # get the dutch references as backdrop
 reference <- dscore::get_reference(population = "dutch") %>%
