@@ -1,0 +1,12 @@
+__loadTrscopeConfig__mapping({
+  "display_base": "__self__",
+  "data_type": "jsonp",
+  "cog_server": {
+    "type": "jsonp",
+    "info": {
+      "base": "__self__"
+    }
+  },
+  "split_layout": false,
+  "has_legend": false
+})
