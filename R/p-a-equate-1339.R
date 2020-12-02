@@ -6,6 +6,11 @@ library("tidyr")
 library("gtools")
 
 theme_set(theme_light())
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA),
+             legend.key = element_blank(),
+             rect = element_rect(fill = "transparent") # all rectangles
+)
 
 m_184 <- load_model("1339_184", model_dir = "models_2020", project = "Jamaica")
 d_184 <- load_data("1339_184", model_dir = "models_2020", project = "Jamaica")
@@ -43,6 +48,7 @@ by_equate <- by_equate[sapply(by_equate$panel, is.list), ]
 
 # create the app
 by_equate %>%
+  ungroup() %>%
   trelliscope(name = "Percent pass by age for all equate groups",
               height = 500,
               width = 1000,
